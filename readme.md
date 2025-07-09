@@ -118,25 +118,89 @@ api
 - 외부 계층(API 등)에는 DTO만 노출
 - 단방향 의존만 허용하여 구조 안정성 확보
 - BlazeJPAQuery 및 QueryDSL 기반 조회 전략 사용 (native query 최소화)
+- 공통 예외 처리를 위한 Common 모듈 활용
+- Domain Exception은 BaseException 상속 및 CommonError 구현
 
 ---
 
 ## 예시 디렉토리 구조
 
 ```
-domain/
-├── domain/
-│   ├── model/         # Entity, VO
-│   └── exception/
-├── service/
-│   └── DiscountService.java
+src/main/java/com/hjm/monolithicboilerplate/
+├── api/
+│   ├── rest/
+│   │   ├── controller/
+│   │   ├── dto/
+│   │   │   ├── request/
+│   │   │   └── response/
+│   │   └── handler/
+│   │       ├── GlobalExceptionHandler.java
+│   │       └── BusinessExceptionHandler.java
+│   └── graphql/
+│       ├── resolver/
+│       ├── type/
+│       └── mutation/
 ├── app/
 │   └── facade/
-│       └── OrderFacade.java
-├── infrastructure/
-│   ├── repository/
-│   ├── reader/
-│   └── store/
+├── common/
+│   ├── exception/
+│   │   ├── BaseException.java
+│   │   ├── BusinessException.java
+│   │   ├── ValidationException.java
+│   │   └── SystemException.java
+│   ├── error/
+│   │   └── CommonError.java
+│   └── response/
+│       ├── ApiResponse.java
+│       └── ErrorResponse.java
+├── domain/
+│   ├── domain/
+│   │   ├── entity/
+│   │   ├── vo/
+│   │   └── exception/
+│   │       ├── UserNotFoundException.java
+│   │       ├── UserAlreadyExistsException.java
+│   │       ├── InvalidEmailException.java
+│   │       └── UserError.java
+│   └── service/
+└── infrastructure/
+    ├── repository/
+    ├── reader/
+    └── store/
+```
+
+---
+
+## 예외 처리 구조
+
+### CommonError 인터페이스
+```java
+public interface CommonError {
+    @JsonValue
+    String getCode();
+    String getMessage();
+    int getStatus();
+}
+```
+
+### Domain Exception 패턴
+- Domain Exception은 BaseException 상속
+- Domain Error는 CommonError 구현
+- 일관된 예외 처리 및 응답 형식
+
+```java
+// Domain Error (CommonError 구현)
+public enum UserError implements CommonError {
+    USER_NOT_FOUND("USER_001", "사용자를 찾을 수 없습니다.", 404),
+    USER_ALREADY_EXISTS("USER_002", "이미 존재하는 사용자입니다.", 409);
+}
+
+// Domain Exception (BaseException 상속)
+public class UserNotFoundException extends BaseException {
+    public UserNotFoundException() {
+        super(UserError.USER_NOT_FOUND);
+    }
+}
 ```
 
 ---
@@ -150,7 +214,7 @@ domain/
 
     * `feat:` 기능 추가
     * `fix:` 버그 수정
-    * `style:` 코드 포맷팅, 세미콜론 누`r`락 등 기능 변경 없는 스타일 수정
+    * `style:` 코드 포맷팅, 세미콜론 누락 등 기능 변경 없는 스타일 수정
     * `docs:` 문서 작성 또는 수정
     * `build:` 빌드 시스템 관련 변경 (Gradle 등)
     * `ci:` CI 설정 변경 (GitHub Actions, Jenkins 등)
@@ -174,6 +238,8 @@ domain/
 - BlazeJPAQuery
 - Gradle (KTS or Groovy)
 - GraphQL / REST API
+- Virtual Threads
+- MySQL
 
 ---
 
@@ -181,7 +247,7 @@ domain/
 
 - [Domain-Driven Design - Eric Evans](https://www.domainlanguage.com/ddd/)
 - [Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)
-- [Shopify’s Modular Monolith](https://shopify.engineering/modular-monolith)
+- [Shopify's Modular Monolith](https://shopify.engineering/modular-monolith)
 - [ai-coding-guidelines (GitHub)](https://github.com/jaemyeong-hwnag/ai-coding-guidelines)
 
 ---
