@@ -3,6 +3,9 @@
 Spring Boot 기반의 **Modular Monolith 아키텍처** 프로젝트입니다.  
 도메인 주도 설계(DDD) 원칙을 따르며, 각 계층은 단방향 의존성과 명확한 책임 분리를 기반으로 구성되어 있습니다.
 
+
+AI 작업시 [ai-coding-guidelines (GitHub)](https://github.com/jaemyeong-hwnag/ai-coding-guidelines) 반드시 준수한다.
+
 ## 계층 구조 및 의존 흐름
 
 ```
