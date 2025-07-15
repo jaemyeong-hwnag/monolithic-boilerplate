@@ -21,11 +21,13 @@ api → facade → service → reader/store → repository
 - 역할: REST 또는 GraphQL 요청을 수신하고 DTO 매핑 처리
 - 다루는 데이터:
     - 입력: Request DTO → Command 또는 VO
-    - 출력: VO → Response DTO
+    - 출력: VO → Response DTO (자동으로 ApiResponseDto로 래핑)
 - 비즈니스 로직 없음. facade만 호출
+- **REST API 공통 설정**: 모든 응답이 자동으로 표준화된 형태로 변환
 
 ```java
 orderController.createOrder(OrderRequest request) → OrderResponse
+// 실제 응답: ApiResponseDto<OrderResponse>
 ```
 
 ---
@@ -133,9 +135,13 @@ src/main/java/com/hjm/monolithicboilerplate/
 │   │   ├── dto/
 │   │   │   ├── request/
 │   │   │   └── response/
-│   │   └── handler/
-│   │       ├── GlobalExceptionHandler.java
-│   │       └── BusinessExceptionHandler.java
+│   │   ├── common/
+│   │   │   ├── ApiResponseDto.java
+│   │   │   ├── ApiResponseAdvice.java
+│   │   │   ├── ApiResponseAnnotation.java
+│   │   │   └── ApiResponseCustomizer.java
+│   │   └── config/
+│   │       └── SwaggerConfig.java
 │   └── graphql/
 │       ├── resolver/
 │       ├── type/
@@ -240,6 +246,129 @@ public class UserNotFoundException extends BaseException {
 - GraphQL / REST API
 - Virtual Threads
 - MySQL
+- SpringDoc OpenAPI (Swagger UI)
+- Lombok
+
+---
+
+## REST API 공통 설정
+
+### 개요
+모든 REST API 응답을 표준화하고 자동화된 문서화를 제공하는 공통 인프라입니다.
+
+### 핵심 컴포넌트
+
+#### 1. ApiResponseDto - 표준 응답 DTO
+모든 API 응답의 표준화된 형태를 제공합니다.
+
+```java
+@Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ApiResponseDto<T> {
+    private final boolean success;      // 성공 여부
+    private final String code;          // 응답 코드
+    private final String message;       // 응답 메시지
+    private final T data;               // 실제 응답 데이터
+    private final LocalDateTime timestamp; // 응답 시간
+}
+```
+
+**표준 응답 형태:**
+```json
+{
+  "success": true,
+  "code": "SUCCESS",
+  "message": "요청이 성공적으로 처리되었습니다.",
+  "data": { /* 실제 데이터 */ },
+  "timestamp": "2025-07-16T12:34:56"
+}
+```
+
+#### 2. ApiResponseAdvice - 자동 응답 래핑
+모든 컨트롤러 응답을 자동으로 `ApiResponseDto`로 래핑합니다.
+
+```java
+@RestControllerAdvice
+public class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
+    // byte[] 타입 제외하고 모든 응답을 자동 래핑
+    // null 응답은 빈 성공 응답으로 변환
+}
+```
+
+#### 3. ApiResponseAnnotation - 커스텀 어노테이션
+Swagger 문서에서 API 응답 상태 코드별 설명을 커스터마이징합니다.
+
+```java
+@ApiResponseAnnotation(
+    response200 = "성공적으로 조회됨",
+    response201 = "성공적으로 생성됨",
+    response404 = "요청한 리소스를 찾을 수 없음",
+    response403 = "권한이 없음"
+)
+@GetMapping("/users/{id}")
+public UserResponse getUser(@PathVariable Long id) {
+    // 컨트롤러 로직
+}
+```
+
+#### 4. SwaggerConfig - API 문서화 설정
+Swagger UI 설정 및 응답 스키마 자동 래핑을 제공합니다.
+
+- **OpenAPI 정의**: 프로젝트 정보 설정
+- **응답 스키마 래핑**: 모든 API 응답을 `ApiResponseDto` 형태로 자동 변환
+- **예시 데이터**: 성공/실패 응답에 대한 예시 제공
+
+### 사용법
+
+#### 기본 컨트롤러 작성
+```java
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+    
+    @ApiResponseAnnotation(
+        response200 = "사용자 정보 조회 성공",
+        response404 = "사용자를 찾을 수 없음"
+    )
+    @GetMapping("/{id}")
+    public UserResponse getUser(@PathVariable Long id) {
+        // 비즈니스 로직
+        return userService.getUser(id);
+    }
+}
+```
+
+#### 자동 응답 변환
+컨트롤러에서 직접 `ApiResponseDto`를 반환할 필요가 없습니다:
+
+```java
+// ❌ 불필요한 래핑
+@GetMapping("/{id}")
+public ApiResponseDto<UserResponse> getUser(@PathVariable Long id) {
+    return ApiResponseDto.success(userService.getUser(id));
+}
+
+// ✅ 자동 래핑 (권장)
+@GetMapping("/{id}")
+public UserResponse getUser(@PathVariable Long id) {
+    return userService.getUser(id);
+}
+```
+
+### Swagger UI 접근
+- **URL**: `http://localhost:8080/swagger-ui/index.html`
+- **특징**: 
+  - 모든 API 응답이 표준화된 형태로 표시
+  - 상태 코드별 상세한 설명 제공
+  - 실제 응답 예시 미리보기 가능
+
+### 장점
+
+1. **개발 생산성 향상**: 표준화된 응답 구조로 개발 시간 단축
+2. **API 일관성**: 모든 엔드포인트가 동일한 응답 형태 사용
+3. **자동화된 문서화**: Swagger UI를 통한 실시간 API 문서 생성
+4. **유지보수성**: 중앙화된 응답 처리로 변경사항 적용 용이
+5. **개발자 경험**: 직관적인 API 문서와 예시 제공
 
 ---
 
