@@ -305,7 +305,7 @@ Swagger 문서에서 API 응답 상태 코드별 설명을 커스터마이징합
     response404 = "요청한 리소스를 찾을 수 없음",
     response403 = "권한이 없음"
 )
-@GetMapping("/users/{id}")
+@GetMapping("/userEntities/{id}")
 public UserResponse getUser(@PathVariable Long id) {
     // 컨트롤러 로직
 }
@@ -323,7 +323,7 @@ Swagger UI 설정 및 응답 스키마 자동 래핑을 제공합니다.
 #### 기본 컨트롤러 작성
 ```java
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/userEntities")
 public class UserController {
     
     @ApiResponseAnnotation(
