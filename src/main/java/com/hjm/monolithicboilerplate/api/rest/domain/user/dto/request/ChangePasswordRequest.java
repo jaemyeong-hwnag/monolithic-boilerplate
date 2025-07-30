@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 
 /**
  * 비밀번호 변경 요청 DTO
- * 
+ * <p>
  * 사용자 비밀번호 변경을 위한 요청 데이터를 담는 DTO입니다.
- * 
+ *
  * @author HJM
  * @version 1.0
  * @since 2024-01-01
@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Schema(description = "비밀번호 변경 요청")
 public class ChangePasswordRequest {
-    
+
     @NotBlank(message = "새 비밀번호는 필수입니다.")
     @Size(min = 8, max = 100, message = "비밀번호는 8자 이상 100자 이하여야 합니다.")
     @Schema(description = "새 비밀번호", example = "newpassword123")

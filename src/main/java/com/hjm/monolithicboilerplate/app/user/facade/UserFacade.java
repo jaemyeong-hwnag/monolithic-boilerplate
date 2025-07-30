@@ -1,13 +1,11 @@
 package com.hjm.monolithicboilerplate.app.user.facade;
 
-import org.springframework.stereotype.Component;
-
 import com.hjm.monolithicboilerplate.domain.user.service.UserService;
 import com.hjm.monolithicboilerplate.domain.user.vo.User;
 import com.hjm.monolithicboilerplate.domain.user.vo.UserId;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * User 도메인 Facade 클래스

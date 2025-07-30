@@ -5,13 +5,13 @@ import java.lang.annotation.*;
 /**
  * API 응답 상태 코드에 대한 설명을 정의하는 커스텀 어노테이션<p>
  * Swagger 문서화에서 API 응답 상태 코드별 설명을 커스터마이징하기 위해 사용<p>
- *
+ * <p>
  * 사용 예시:<p>
  * {@code
- * @ApiResponseAnnotation(
- *     response200 = "성공적으로 조회됨",
- *     response201 = "성공적으로 생성됨",
- *     response404 = "요청한 리소스를 찾을 수 없음"
+ *
+ * @ApiResponseAnnotation( response200 = "성공적으로 조회됨",
+ * response201 = "성공적으로 생성됨",
+ * response404 = "요청한 리소스를 찾을 수 없음"
  * )
  * }
  */

@@ -14,18 +14,20 @@ public enum DomainCommonError implements ErrorCode {
     private final String message;
 
     DomainCommonError(
-        String code,
-        String message
+            String code,
+            String message
     ) {
         this.code = code;
         this.message = message;
     }
 
-    @Override public String getCode() {
+    @Override
+    public String getCode() {
         return code;
     }
 
-    @Override public String getMessage() {
+    @Override
+    public String getMessage() {
         return message;
     }
 }

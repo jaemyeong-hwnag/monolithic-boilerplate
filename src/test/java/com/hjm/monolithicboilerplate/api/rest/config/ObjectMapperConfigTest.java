@@ -26,7 +26,10 @@ class ObjectMapperConfigTest {
     static class SampleDateTime {
         public LocalDate date;
         public LocalDateTime dateTime;
-        public SampleDateTime() {}
+
+        public SampleDateTime() {
+        }
+
         public SampleDateTime(LocalDate date, LocalDateTime dateTime) {
             this.date = date;
             this.dateTime = dateTime;

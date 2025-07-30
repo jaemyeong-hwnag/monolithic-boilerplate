@@ -1,7 +1,6 @@
 package com.hjm.monolithicboilerplate.domain.user.vo;
 
 import com.hjm.monolithicboilerplate.domain.user.entity.UserEntity;
-
 import lombok.Builder;
 import lombok.Getter;
 
