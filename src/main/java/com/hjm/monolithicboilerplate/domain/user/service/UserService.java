@@ -4,14 +4,10 @@ import com.hjm.monolithicboilerplate.common.exception.NotFoundException;
 import com.hjm.monolithicboilerplate.domain.user.infrastructure.reader.UserReader;
 import com.hjm.monolithicboilerplate.domain.user.vo.User;
 import com.hjm.monolithicboilerplate.domain.user.vo.UserId;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * User 도메인 Service 클래스

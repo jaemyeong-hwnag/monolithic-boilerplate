@@ -3,20 +3,14 @@ package com.hjm.monolithicboilerplate.api.rest.domain.sample.controller;
 import com.hjm.monolithicboilerplate.api.rest.common.ApiResponseAnnotation;
 import com.hjm.monolithicboilerplate.api.rest.common.ApiResponseDto;
 import com.hjm.monolithicboilerplate.api.rest.domain.sample.dto.request.CreateUserRequest;
-import com.hjm.monolithicboilerplate.api.rest.domain.sample.dto.response.GetAdminUserResponse;
 import com.hjm.monolithicboilerplate.api.rest.domain.sample.dto.response.GetDateTimeResponse;
 import com.hjm.monolithicboilerplate.api.rest.domain.sample.dto.response.GetUserResponse;
-
-import lombok.Builder;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import javax.security.sasl.AuthenticationException;
 
 /**
  * REST API 공통 설정 테스트를 위한 샘플 컨트롤러
@@ -29,8 +23,8 @@ public class SampleController {
      * 단일 사용자 조회 - 성공 케이스
      */
     @ApiResponseAnnotation(
-        response200 = "사용자 정보 조회 성공",
-        response404 = "사용자를 찾을 수 없음"
+            response200 = "사용자 정보 조회 성공",
+            response404 = "사용자를 찾을 수 없음"
     )
     @GetMapping("/users/{id}")
     public GetUserResponse getUser(@PathVariable Long id) {
@@ -51,18 +45,18 @@ public class SampleController {
      * 사용자 목록 조회 - 성공 케이스
      */
     @ApiResponseAnnotation(
-        response200 = "사용자 목록 조회 성공"
+            response200 = "사용자 목록 조회 성공"
     )
     @GetMapping("/users")
     public List<GetUserResponse> getUser() {
         return List.of(
-            GetUserResponse.builder()
+                GetUserResponse.builder()
                         .id(1L)
                         .email("user1@example.com")
                         .name("사용자1")
                         .createdAt(LocalDateTime.now())
                         .build(),
-            GetUserResponse.builder()
+                GetUserResponse.builder()
                         .id(2L)
                         .email("user2@example.com")
                         .name("사용자2")
@@ -75,7 +69,7 @@ public class SampleController {
      * 사용자 생성 - 201 Created 응답
      */
     @ApiResponseAnnotation(
-        response201 = "사용자가 성공적으로 생성됨"
+            response201 = "사용자가 성공적으로 생성됨"
     )
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -92,7 +86,7 @@ public class SampleController {
      * 빈 응답 테스트
      */
     @ApiResponseAnnotation(
-        response200 = "삭제 성공"
+            response200 = "삭제 성공"
     )
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id) {
@@ -103,7 +97,7 @@ public class SampleController {
      * 문자열 응답 테스트
      */
     @ApiResponseAnnotation(
-        response200 = "상태 확인 성공"
+            response200 = "상태 확인 성공"
     )
     @GetMapping("/health")
     public ApiResponseDto<String> getHealth() {
@@ -114,7 +108,7 @@ public class SampleController {
      * 날짜/시간 포맷 테스트
      */
     @ApiResponseAnnotation(
-        response200 = "날짜/시간 정보 조회 성공"
+            response200 = "날짜/시간 정보 조회 성공"
     )
     @GetMapping("/datetime")
     public GetDateTimeResponse getDateTime() {

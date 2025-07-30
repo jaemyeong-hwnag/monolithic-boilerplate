@@ -1,9 +1,9 @@
 package com.hjm.monolithicboilerplate.domain.common.exception;
 
-import static com.hjm.monolithicboilerplate.domain.common.exception.DomainCommonError.*;
-
-import com.hjm.monolithicboilerplate.common.exception.ErrorCode;
 import com.hjm.monolithicboilerplate.common.exception.BusinessException;
+import com.hjm.monolithicboilerplate.common.exception.ErrorCode;
+
+import static com.hjm.monolithicboilerplate.domain.common.exception.DomainCommonError.INVALID_ID;
 
 public class InvalidIdException extends BusinessException {
     public InvalidIdException() {
@@ -11,8 +11,8 @@ public class InvalidIdException extends BusinessException {
     }
 
     public InvalidIdException(
-        ErrorCode error,
-        Throwable cause
+            ErrorCode error,
+            Throwable cause
     ) {
         super(error, cause);
     }

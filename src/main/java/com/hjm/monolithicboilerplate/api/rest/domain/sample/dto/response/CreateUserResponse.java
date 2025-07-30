@@ -1,9 +1,9 @@
 package com.hjm.monolithicboilerplate.api.rest.domain.sample.dto.response;
 
-import java.time.LocalDateTime;
-
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -12,8 +12,4 @@ public class CreateUserResponse {
     private final String email;
     private final String name;
     private final LocalDateTime createdAt;
-
-    public static CreateUserResponse from() {
-
-    }
 }

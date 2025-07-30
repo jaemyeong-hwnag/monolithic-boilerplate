@@ -78,6 +78,7 @@ public class ApiResponseCustomizer implements OperationCustomizer {
 
     /**
      * API 응답 객체 생성
+     *
      * @return 생성된 API 응답 객체
      */
     private ApiResponse createApiResponse(String description, String mediaType) {

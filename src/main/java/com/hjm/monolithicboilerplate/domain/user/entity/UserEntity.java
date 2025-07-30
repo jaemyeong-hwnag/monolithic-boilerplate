@@ -1,20 +1,9 @@
 package com.hjm.monolithicboilerplate.domain.user.entity;
 
-import org.hibernate.annotations.Comment;
-
 import com.hjm.monolithicboilerplate.domain.common.entity.BaseEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Table(name = "user")

@@ -1,28 +1,40 @@
 package com.hjm.monolithicboilerplate.domain.domain.entity;
 
-import org.junit.jupiter.api.Test;
+import com.hjm.monolithicboilerplate.domain.common.entity.BaseEntity;
+import com.hjm.monolithicboilerplate.domain.common.enums.EntityStatus;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.hjm.monolithicboilerplate.domain.common.entity.BaseEntity;
-import com.hjm.monolithicboilerplate.domain.common.enums.EntityStatus;
-
 /**
  * BaseEntity 테스트
- *
+ * <p>
  * BaseEntity의 공통 기능(상태, 시간, 감사 필드 등)을 검증합니다.
  */
 @DisplayName("BaseEntity 테스트")
 class BaseEntityTest {
     static class TestEntity extends BaseEntity<Long> {
         private String value;
-        public TestEntity() { super(); }
-        public TestEntity(Long id) { super(id); }
-        public void setValue(String value) { this.value = value; update(); }
-        public String getValue() { return value; }
+
+        public TestEntity() {
+            super();
+        }
+
+        public TestEntity(Long id) {
+            super(id);
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+            update();
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
     @Test

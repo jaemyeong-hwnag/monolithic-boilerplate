@@ -1,10 +1,9 @@
 package com.hjm.monolithicboilerplate.domain.common.vo;
 
 import com.hjm.monolithicboilerplate.domain.common.exception.InvalidIdException;
-
 import lombok.Getter;
 
-public abstract class  AbstractId<T extends AbstractId<T>> {
+public abstract class AbstractId<T extends AbstractId<T>> {
     @Getter
     private final Long id;
 

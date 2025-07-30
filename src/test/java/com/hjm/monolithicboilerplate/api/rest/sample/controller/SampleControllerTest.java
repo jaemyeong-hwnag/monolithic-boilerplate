@@ -3,7 +3,6 @@ package com.hjm.monolithicboilerplate.api.rest.sample.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hjm.monolithicboilerplate.api.rest.domain.sample.controller.SampleController;
 import com.hjm.monolithicboilerplate.api.rest.domain.sample.dto.request.CreateUserRequest;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
